@@ -13,14 +13,16 @@ print('''Cho-Han, by Al Sweigart al@inventwithpython.com
 In this traditional Japanese dice game, two dice are rolled in a bamboo
 cup by the dealer sitting on the floor. The player must guess if the
 dice total to an even (cho) or odd (han) number.
-''')
+      
+      NOTE: Dice rolled that equates to 2 or 7 GIVES you a bonus +10 mon 
+''')#CHANGED: added the note for the bonus mon
 
 purse = 5000
 while True:  # Main game loop.
     # Place your bet:
     print('You have', purse, 'mon. How much do you bet? (or QUIT)')
     while True:
-        pot = input('> ')
+        pot = input('cjb: ') #CHANGED: updated to my intitals for the purse
         if pot.upper() == 'QUIT':
             print('Thanks for playing!')
             sys.exit()
@@ -57,6 +59,12 @@ while True:  # Main game loop.
     print('  ', JAPANESE_NUMBERS[dice1], '-', JAPANESE_NUMBERS[dice2])
     print('    ', dice1, '-', dice2)
 
+#ADDED: Bonus mon rule displayed when 2 or 7 is rolled
+    total = dice1 + dice2
+    if total == 2 or total == 7:
+        print('SLAY, you rolled a ',total ,'and earned +10 mon!')
+        purse += 10 
+
     # Determine if the player won:
     rollIsEven = (dice1 + dice2) % 2 == 0
     if rollIsEven:
@@ -70,8 +78,8 @@ while True:  # Main game loop.
     if playerWon:
         print('You won! You take', pot, 'mon.')
         purse = purse + pot  # Add the pot from player's purse.
-        print('The house collects a', pot // 10, 'mon fee.')
-        purse = purse - (pot // 10)  # The house fee is 10%.
+        print('The house collects a', pot * 12 // 100, 'mon fee.')
+        purse = purse - int(pot * 12 // 100)  # Updated to 12%
     else:
         purse = purse - pot  # Subtract the pot from player's purse.
         print('You lost!')
