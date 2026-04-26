@@ -22,6 +22,7 @@ TREE = 'A'
 FIRE = '@'
 WATER = '~'
 EMPTY = ' '
+WATER = '~'
 
 # (!) Try changing these settings to anything between 0.0 and 1.0:
 INITIAL_TREE_DENSITY = 0.20  # Amount of forest that starts with trees.
@@ -63,6 +64,8 @@ def main():
                     # Loop through all the neighboring spaces:
                     for ix in range(-1, 2):
                         for iy in range(-1, 2):
+                            if forest.get((x +ix, y +iy)) == WATER:
+                                continue #Fire cannot spread across water
                             # Fire spreads to neighboring trees:
                             if forest.get((x + ix, y + iy)) == TREE:
                                 nextForest[(x + ix, y + iy)] = FIRE
@@ -103,11 +106,20 @@ def createNewForest():
     forest = {'width': WIDTH, 'height': HEIGHT}
     for x in range(WIDTH):
         for y in range(HEIGHT):
-            if (random.random() * 100) <= INITIAL_TREE_DENSITY:
+            if random.random() <= INITIAL_TREE_DENSITY:
                 forest[(x, y)] = TREE  # Start as a tree.
             else:
                 forest[(x, y)] = EMPTY  # Start as an empty space.
+    lake_width = 4
+    lake_height = 10
+    lake_x_start = WIDTH // 2 - lake_width // 2
+    lake_y_start = HEIGHT // 2 - lake_height // 2
+
+    for y in range(lake_y_start, lake_y_start + lake_height):
+        for x in range(lake_x_start, lake_x_start + lake_width):
+            forest[(x, y)] = WATER
     return forest
+
 
 
 def displayForest(forest):
@@ -121,6 +133,9 @@ def displayForest(forest):
             elif forest[(x, y)] == FIRE:
                 bext.fg('red')
                 print(FIRE, end='')
+            elif forest[(x, y)] == WATER:
+                bext.fg('blue')
+                print(WATER, end='')
           	
             elif forest[(x, y)] == WATER:
                 bext.fg('blue')
