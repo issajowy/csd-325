@@ -24,7 +24,7 @@ EMPTY = ' '
 WATER = '~'
 
 # (!) Try changing these settings to anything between 0.0 and 1.0:
-INITIAL_TREE_DENSITY = 0.20  # Amount of forest that starts with trees.
+INITIAL_TREE_DENSITY = 0.15  # Amount of forest that starts with trees.
 GROW_CHANCE = 0.01  # Chance a blank space turns into a tree.
 FIRE_CHANCE = 0.01  # Chance a tree is hit by lightning & burns.
 
@@ -49,7 +49,6 @@ def main():
                     # If we've already set nextForest[(x, y)] on a
                     # previous iteration, just do nothing here:
                     continue
-
                 if ((forest[(x, y)] == EMPTY)
                     and (random.random() <= GROW_CHANCE)):
                     # Grow a tree in this empty space.
@@ -83,7 +82,7 @@ def createNewForest():
     forest = {'width': WIDTH, 'height': HEIGHT}
     for x in range(WIDTH):
         for y in range(HEIGHT):
-            if random.random() <= INITIAL_TREE_DENSITY:
+            if (random.random() * 100)<= INITIAL_TREE_DENSITY:
                 forest[(x, y)] = TREE  # Start as a tree.
             else:
                 forest[(x, y)] = EMPTY  # Start as an empty space.
@@ -113,7 +112,6 @@ def displayForest(forest):
             elif forest[(x, y)] == WATER:
                 bext.fg('blue')
                 print(WATER, end='')
-          	
             elif forest[(x, y)] == EMPTY:
                 print(EMPTY, end='')
         print()
