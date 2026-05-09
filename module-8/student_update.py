@@ -9,7 +9,7 @@ def print_student_list(students):
 def main():
     # 1. Load the JSON file into a list
     try:
-        with open('student.json', 'r') as file:
+        with open("module-8/Student.json", "r") as file:
             student_list = json.load(file)
     except FileNotFoundError:
         print("Error: student.json not found.")
@@ -36,7 +36,7 @@ def main():
     print()
 
     # 5. Use JSON dump() to update the file
-    with open('student.json', 'w') as file:
+    with open("module-8/Student.json", "w") as file:
         json.dump(student_list, file, indent=4)
 
     # 6. Output final notification
