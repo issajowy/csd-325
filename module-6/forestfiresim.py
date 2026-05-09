@@ -20,6 +20,7 @@ HEIGHT = 22
 
 TREE = 'A'
 FIRE = '@'
+WATER = '~'
 EMPTY = ' '
 WATER = '~'
 
@@ -75,6 +76,28 @@ def main():
         forest = nextForest
 
         time.sleep(PAUSE_LENGTH)
+def createNewForest():
+    forest = {}
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            if random.random() <= TREE_DENSITY:
+                forest[(x, y)] = TREE
+            if forest[(x, y)] == WATER:
+                continue  # Fire cannot cross water
+
+            else:
+                forest[(x, y)] = EMPTY  # Start as empty space
+    # Add lake in the center
+    lake_width = 10
+    lake_height = 4
+    lake_x_start = WIDTH // 2 - lake_width // 2
+    lake_y_start = HEIGHT // 2 - lake_height // 2
+
+    for y in range(lake_y_start, lake_y_start + lake_height):
+        for x in range(lake_x_start, lake_x_start + lake_width):
+            forest[(x, y)] = WATER
+
+    return forest
 
 
 def createNewForest():
@@ -112,8 +135,16 @@ def displayForest(forest):
             elif forest[(x, y)] == WATER:
                 bext.fg('blue')
                 print(WATER, end='')
+<<<<<<< HEAD
+          	
+            elif forest[(x, y)] == WATER:
+                bext.fg('blue')
+                print(WATER, end='')
+
+=======
             elif forest[(x, y)] == EMPTY:
                 print(EMPTY, end='')
+>>>>>>> 89ebad122304254dd5301b9daf31fca6152a8705
         print()
     bext.fg('reset')  # Use the default font color.
     print('Grow chance: {}%  '.format(GROW_CHANCE * 100), end='')
